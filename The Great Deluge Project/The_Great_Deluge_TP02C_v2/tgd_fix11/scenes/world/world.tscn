@@ -1,0 +1,39 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/environment/environment.tscn" id="1_environment"]
+[ext_resource type="PackedScene" path="res://scenes/environment/ocean.tscn" id="2_ocean"]
+[ext_resource type="PackedScene" path="res://scenes/world/island.tscn" id="3_island"]
+[ext_resource type="Script" path="res://scripts/world/orbit_camera.gd" id="4_camera_script"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="5_player"]
+[ext_resource type="PackedScene" path="res://scenes/objects/driftwood.tscn" id="6_wood"]
+[ext_resource type="PackedScene" path="res://scenes/ui/player_hud.tscn" id="7_hud"]
+
+[ext_resource type="Script" path="res://scripts/systems/interaction_controller.gd" id="8_interaction_script"]
+
+[node name="World" type="Node3D"]
+
+[node name="Environment" parent="." instance=ExtResource("1_environment")]
+
+[node name="Ocean" parent="." instance=ExtResource("2_ocean")]
+
+[node name="Island" parent="." instance=ExtResource("3_island")]
+
+[node name="Player" parent="." instance=ExtResource("5_player")]
+position = Vector3(0, 12.0, 0)
+
+[node name="Driftwood" parent="." instance=ExtResource("6_wood")]
+position = Vector3(3, 8.98, -2)
+
+[node name="PlayerHUD" parent="." instance=ExtResource("7_hud")]
+
+[node name="InteractionController" type="Node" parent="."]
+script = ExtResource("8_interaction_script")
+camera_path = NodePath("../Player/CameraPivot/SpringArm3D/Camera3D")
+player_path = NodePath("../Player")
+prompt_label_path = NodePath("../PlayerHUD/Prompt")
+crosshair_path = NodePath("../PlayerHUD/Crosshair")
+
+[node name="ObservationCamera" type="Camera3D" parent="."]
+current = false
+fov = 70.0
+script = ExtResource("4_camera_script")
