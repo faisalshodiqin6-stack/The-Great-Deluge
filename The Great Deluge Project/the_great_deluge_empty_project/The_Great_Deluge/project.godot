@@ -1,0 +1,15 @@
+; The Great Deluge
+; Initial empty project — Godot 4, GDScript, Compatibility renderer.
+
+config_version=5
+
+[application]
+
+config/name="The Great Deluge"
+config/description="3D open-world survival sandbox project."
+config/features=PackedStringArray("4.3", "GL Compatibility")
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
