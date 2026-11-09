@@ -1,0 +1,10 @@
+THE GREAT DELUGE — TP-02 FIX 9
+
+1. Ekstrak ZIP ini ke folder baru.
+2. Buka Godot Project Manager.
+3. Pilih Import, lalu pilih file project.godot pada folder hasil ekstrak.
+4. Klik Import & Edit, kemudian tekan F5.
+
+Kontrol: WASD bergerak, mouse menggerakkan kamera, SPACE melompat, E mengambil kayu saat prompt interaksi muncul, ESC melepas/mengunci mouse.
+
+Kayu uji ditempatkan di area tengah pulau. Dekati kayu, arahkan kamera ke kayu, lalu tekan E ketika teks "E - Ambil Kayu Apung" muncul.

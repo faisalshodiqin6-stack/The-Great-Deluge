@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/systems/interactable.gd" id="1_interactable"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_wood"]
+top_radius = 0.16
+bottom_radius = 0.19
+height = 1.25
+radial_segments = 8
+
+[sub_resource type="CylinderShape3D" id="CylinderShape_wood"]
+radius = 0.2
+height = 1.25
+
+[node name="Driftwood" type="StaticBody3D"]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_interactable")
+display_name = "Kayu Apung"
+interaction_prompt = "E - Ambil Kayu Apung"
+can_collect = true
+resource_id = "kayu_apung"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.22, 0)
+rotation_degrees = Vector3(0, 0, 90)
+mesh = SubResource("CylinderMesh_wood")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.22, 0)
+rotation_degrees = Vector3(0, 0, 90)
+shape = SubResource("CylinderShape_wood")
