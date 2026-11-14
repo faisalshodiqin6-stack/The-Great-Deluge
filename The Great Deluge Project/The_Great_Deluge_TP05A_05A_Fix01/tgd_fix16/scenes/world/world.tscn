@@ -1,0 +1,140 @@
+[gd_scene load_steps=34 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/environment/environment.tscn" id="1_environment"]
+[ext_resource type="PackedScene" path="res://scenes/environment/ocean.tscn" id="2_ocean"]
+[ext_resource type="PackedScene" path="res://scenes/world/island.tscn" id="3_island"]
+[ext_resource type="Script" path="res://scripts/world/orbit_camera.gd" id="4_camera_script"]
+[ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="5_player"]
+[ext_resource type="PackedScene" path="res://scenes/objects/driftwood.tscn" id="6_wood"]
+[ext_resource type="PackedScene" path="res://scenes/ui/player_hud.tscn" id="7_hud"]
+
+[ext_resource type="Script" path="res://scripts/systems/interaction_controller.gd" id="8_interaction_script"]
+[ext_resource type="Script" path="res://scripts/world/world_builder.gd" id="9_builder"]
+[ext_resource type="Script" path="res://scripts/systems/resource_tracker.gd" id="10_tracker"]
+[ext_resource type="Script" path="res://scripts/systems/inventory.gd" id="11_inventory"]
+[ext_resource type="PackedScene" path="res://scenes/ui/inventory_panel.tscn" id="12_panel"]
+[ext_resource type="Script" path="res://scripts/systems/ui_state.gd" id="13_uistate"]
+[ext_resource type="Script" path="res://scripts/systems/crafting_manager.gd" id="14_crafting"]
+[ext_resource type="Script" path="res://scripts/systems/hotbar.gd" id="16_hotbar"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hotbar_ui.tscn" id="17_hotbar_ui"]
+[ext_resource type="Script" path="res://scripts/systems/player_input.gd" id="18_input"]
+[ext_resource type="Script" path="res://scripts/systems/world_time.gd" id="20_time"]
+[ext_resource type="Script" path="res://scripts/systems/day_night_cycle.gd" id="21_daynight"]
+[ext_resource type="Script" path="res://scripts/systems/lighting_config.gd" id="22_lcfg"]
+[ext_resource type="Script" path="res://scripts/systems/sky_rig.gd" id="23_skyrig"]
+[ext_resource type="Script" path="res://scripts/systems/ambient_audio.gd" id="24_audio"]
+[ext_resource type="PackedScene" path="res://scenes/ui/touch_controls.tscn" id="19_touch"]
+[ext_resource type="Script" path="res://scripts/systems/player_survival.gd" id="25_survival"]
+[ext_resource type="Script" path="res://scripts/systems/body_temperature.gd" id="26_bodytemp"]
+[ext_resource type="Script" path="res://scripts/systems/world_environment_data.gd" id="27_envdata"]
+[ext_resource type="Script" path="res://scripts/systems/world_air_temperature_provider.gd" id="28_airprov"]
+[ext_resource type="Script" path="res://scripts/systems/sun_exposure_provider.gd" id="29_sunprov"]
+[ext_resource type="Script" path="res://scripts/systems/water_temperature_data.gd" id="30_waterdata"]
+[ext_resource type="Script" path="res://scripts/systems/water_temperature_provider.gd" id="31_waterprov"]
+
+[sub_resource type="Resource" id="LightingConfig_main"]
+script = ExtResource("22_lcfg")
+
+[node name="World" type="Node3D"]
+
+[node name="Environment" parent="." instance=ExtResource("1_environment")]
+
+[node name="Ocean" parent="." instance=ExtResource("2_ocean")]
+
+[node name="Island" parent="." instance=ExtResource("3_island")]
+
+[node name="Player" parent="." instance=ExtResource("5_player")]
+position = Vector3(0, 8.0, 0)
+
+[node name="Driftwood" parent="." instance=ExtResource("6_wood")]
+position = Vector3(3, 4.06, -2)
+
+[node name="PlayerHUD" parent="." instance=ExtResource("7_hud")]
+
+[node name="InteractionController" type="Node" parent="."]
+script = ExtResource("8_interaction_script")
+camera_path = NodePath("../Player/CameraPivot/SpringArm3D/Camera3D")
+player_path = NodePath("../Player")
+prompt_label_path = NodePath("../PlayerHUD/Prompt")
+crosshair_path = NodePath("../PlayerHUD/Crosshair")
+resource_tracker_path = NodePath("../ResourceTracker")
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("11_inventory")
+
+[node name="UIState" type="Node" parent="."]
+script = ExtResource("13_uistate")
+
+[node name="CraftingManager" type="Node" parent="."]
+script = ExtResource("14_crafting")
+inventory_path = NodePath("../Inventory")
+
+[node name="WorldTime" type="Node" parent="."]
+process_mode = 3
+script = ExtResource("20_time")
+
+[node name="PlayerSurvival" type="Node" parent="."]
+script = ExtResource("25_survival")
+
+[node name="BodyTemperature" type="Node" parent="."]
+script = ExtResource("26_bodytemp")
+
+[node name="WorldEnvironmentData" type="Node" parent="."]
+script = ExtResource("27_envdata")
+
+[node name="WorldAirTemperatureProvider" type="Node" parent="."]
+script = ExtResource("28_airprov")
+
+[node name="SunExposureProvider" type="Node" parent="."]
+script = ExtResource("29_sunprov")
+
+[node name="WaterTemperatureData" type="Node" parent="."]
+script = ExtResource("30_waterdata")
+
+[node name="WaterTemperatureProvider" type="Node" parent="."]
+script = ExtResource("31_waterprov")
+
+[node name="SkyRig" type="Node3D" parent="."]
+script = ExtResource("23_skyrig")
+
+[node name="AmbientAudio" type="Node" parent="."]
+script = ExtResource("24_audio")
+
+[node name="DayNightCycle" type="Node" parent="."]
+script = ExtResource("21_daynight")
+sun_path = NodePath("../Environment/SunLight")
+moon_light_path = NodePath("../Environment/MoonLight")
+environment_path = NodePath("../Environment/WorldEnvironment")
+sky_rig_path = NodePath("../SkyRig")
+config = SubResource("LightingConfig_main")
+
+[node name="PlayerInput" type="Node" parent="."]
+script = ExtResource("18_input")
+
+[node name="Hotbar" type="Node" parent="."]
+script = ExtResource("16_hotbar")
+inventory_path = NodePath("../Inventory")
+
+[node name="HotbarUI" parent="." instance=ExtResource("17_hotbar_ui")]
+hotbar_path = NodePath("../Hotbar")
+inventory_path = NodePath("../Inventory")
+
+[node name="InventoryPanel" parent="." instance=ExtResource("12_panel")]
+inventory_path = NodePath("../Inventory")
+crafting_path = NodePath("../CraftingManager")
+
+[node name="TouchControls" parent="." instance=ExtResource("19_touch")]
+
+[node name="ResourceTracker" type="Node" parent="."]
+script = ExtResource("10_tracker")
+inventory_path = NodePath("../Inventory")
+label_path = NodePath("../PlayerHUD/ResourceLabel")
+
+[node name="Props" type="Node3D" parent="."]
+script = ExtResource("9_builder")
+island_path = NodePath("../Island")
+
+[node name="ObservationCamera" type="Camera3D" parent="."]
+current = false
+fov = 70.0
+script = ExtResource("4_camera_script")
