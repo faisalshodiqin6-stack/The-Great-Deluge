@@ -1,0 +1,27 @@
+PASS 1 air / legacy path: old and new results identical (60000 random samples, exact ==)  [differences=0]
+PASS 1 air 24 h trajectory before vs after  [max |diff|=0.0; end 37.4352 vs 37.4352]
+PASS 2 water 26 C: settles at water + basal/g (water used, air 35 ignored)  [T=26.6000 eq=26.6000 (clamped to min 25.0)]
+PASS 2 equilibrium would be far below the air one (air 35 -> 47)
+PASS 3 water 14 C cools faster than air 25 C (5 min, below the 25 C floor)  [air 37.019 / water26 35.462 / water14 33.688]
+PASS 4 water warmer than the body (40 C) warms it  [35.0 -> 39.779]
+PASS 4 same body in air (25 C) does not warm like that
+PASS 5 flag false, value default 0: identical to plain air path, finite  [37.0524]
+PASS 5 flag false, value 5 (stale): identical to plain air path, finite  [37.0524]
+PASS 5 flag true but NaN: identical to plain air path, finite  [37.0524]
+PASS 5 flag true but inf: identical to plain air path, finite  [37.0524]
+PASS 5 profile NaN with valid legacy water -> legacy used (compat)
+PASS 6 empty sample (no provider): neutral stand-in, same as old, finite  [37.0000]
+PASS 6 water_env(empty) = NAN (not 0 C)
+PASS 7 water path applies water_conductance_multiplier exactly once
+PASS 7 one step equals exp solution with g = base x 25 (not 625)
+PASS 8 hot body (38.5) in water, full sun: no solar heat, no sweat  [sweat=0.0 production=80.0]
+PASS 8 same body in AIR still gets sun and sweat (regression guard)
+PASS 8 activity heat kept in water (swim +350 W)
+PASS 8 wind ignored in water
+PASS 9 substeps: 1x3600 == 12x300 == 720x5 == 36x100 (water 26 C, not at equilibrium or floor)  [{'1x3600s': 28.124712, '12x300s': 28.124712, '720x5s': 28.124712, '36x100s (accelerated chunks)': 28.124712}]
+PASS 9 one 3 h call (36 substeps) == three 1 h calls  [26.632772]
+PASS NaN/inf never reach the body temperature (20000 random samples)
+PASS legacy has_water/is_in_water/water_temperature still works
+PASS profile wins over legacy when both are present
+
+RESULT: ALL PASS

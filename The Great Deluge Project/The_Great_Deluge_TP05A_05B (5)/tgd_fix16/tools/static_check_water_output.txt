@@ -1,0 +1,52 @@
+PASS res:// references all exist (whole project)  [[]]
+PASS world.tscn resource ids unique
+PASS world.tscn: every used id is declared  [set()]
+PASS world.tscn: new nodes present
+PASS world.tscn node names unique
+PASS provider default paths resolve (../WaterTemperatureData, ../Player; data ../Island)
+PASS class_name unique project-wide  [{}]
+PASS water_surface_provider: extends Resource is a known class/builtin
+PASS water_surface_provider: tab indentation only
+PASS flat_water_surface_provider: extends WaterSurfaceProvider is a known class/builtin
+PASS flat_water_surface_provider: tab indentation only
+PASS water_temperature_reading: extends RefCounted is a known class/builtin
+PASS water_temperature_reading: tab indentation only
+PASS water_temperature_data: extends Node is a known class/builtin
+PASS water_temperature_data: tab indentation only
+PASS water_temperature_provider: extends EnvironmentProvider is a known class/builtin
+PASS water_temperature_provider: tab indentation only
+PASS water_temperature_data -> water_surface_provider: ['get_description', 'get_water_depth'] declared
+PASS water_temperature_data: only calls known methods on surface_provider.
+PASS water_temperature_provider -> water_temperature_data: ['query_at'] declared
+PASS water_temperature_provider: only calls known methods on _data.
+PASS water_temperature_data -> region_locator: ['find_region', 'get_description', 'has_regions'] declared
+PASS water_temperature_data: only calls known methods on region_locator.
+PASS provider overrides fill_sample(sample)
+PASS flat provider overrides get_water_depth/get_description
+PASS no 4.4+ syntax (@abstract, @export_custom unique ids, uid:// refs)
+PASS no 'var x := <untyped call>' on call()/get() results
+PASS provider writes only has_water_profile / water_profile_*  [['has_water_profile', 'water_profile_depth', 'water_profile_region_id', 'water_profile_region_name', 'water_profile_temperature']]
+PASS provider never calls reset() or touches has_water/is_in_water/water_temperature
+PASS BodyTemperature reads water_profile only in its water helpers (05B integration; see static_check_body_water.py)
+PASS EnvironmentSample: every water_profile field declared AND reset()  [['has_water_profile', 'water_profile_temperature', 'water_profile_depth', 'water_profile_region_id', 'water_profile_region_name']]
+PASS SunExposure/WorldAir providers untouched (no water_profile refs)
+PASS BodyTemperature: water_conductance_multiplier still 25.0
+PASS new scripts (code) do not reference WorldTime / DayNightCycle / BodyTemperature
+PASS Fix01: _settings_problem validates surface_temperature
+PASS Fix01: _settings_problem validates deep_temperature
+PASS Fix01: _settings_problem validates depth_scale
+PASS Fix01: _settings_problem validates max_depth
+PASS Fix01: _settings_problem validates min_water_temperature
+PASS Fix01: _settings_problem validates max_water_temperature
+PASS Fix01: depth_scale <= 0 rejected
+PASS Fix01: max_depth < 0 rejected
+PASS Fix01: min > max rejected (no swap / no minf-maxf on the limits)
+PASS Fix01: no silent repair of depth_scale / max_depth (no maxf(depth_scale / maxf(max_depth)
+PASS Fix01: query_at checks settings before anything else
+PASS Fix01: query_at rejects invalid region water_temperature_offset
+PASS Fix01: get_temperature_at_depth validates settings, depth, result
+PASS Fix01: temporal offset and surface sum checked for NaN/inf
+PASS Fix01: final clamp uses the validated limits directly
+PASS Fix01: depth 0 path: mix = 1 - exp(-d / depth_scale)
+
+RESULT: ALL PASS

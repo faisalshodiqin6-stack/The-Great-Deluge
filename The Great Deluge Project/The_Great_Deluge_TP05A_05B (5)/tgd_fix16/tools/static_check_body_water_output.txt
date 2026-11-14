@@ -1,0 +1,51 @@
+PASS game files changed vs baseline: only body_temperature.gd (+ docs)  [['scripts/systems/body_temperature.gd']]
+PASS unchanged: scripts/systems/world_time.gd
+PASS unchanged: scripts/systems/day_night_cycle.gd
+PASS unchanged: scripts/systems/player_survival.gd
+PASS unchanged: scripts/systems/environment_sample.gd
+PASS unchanged: scripts/systems/water_temperature_data.gd
+PASS unchanged: scripts/systems/water_temperature_provider.gd
+PASS unchanged: scripts/systems/temperature_status_view.gd
+PASS unchanged: scripts/systems/world_air_temperature_provider.gd
+PASS unchanged: scripts/systems/sun_exposure_provider.gd
+PASS unchanged: scenes/world/world.tscn
+PASS only 2 code lines removed (the old in_water / env_temp lines)  [['var in_water := s.has_water and s.is_in_water', 'var env_temp := s.water_temperature if in_water else air']]
+PASS kept: conductance *= water_conductance_multiplier
+PASS kept: production += solar_gain_full_sun * sun * (1.0 - sun_block)
+PASS kept: if _temperature > normal_temperature and not in_water:
+PASS kept: conductance *= 1.0 + wind_conductance_per_ms * wind * (1.0 -
+PASS kept: exp(-dt / tau)
+PASS kept: var equilibrium := (production + conductance * env_temp + sw
+PASS water_conductance_multiplier default still 25.0
+PASS multiplier applied exactly once in code  [['\t\tconductance *= water_conductance_multiplier']]
+PASS substep loop in advance() unchanged
+PASS max_substep_seconds default unchanged
+PASS profile requires has_water_profile AND finite value
+PASS legacy requires has_water AND is_in_water AND finite value
+PASS returns NAN (not 0) when no water data
+PASS depth / region fields not used in the heat formula
+PASS _integrate does not read provider nodes or water_profile flag directly
+PASS env_temp uses water only when in_water
+PASS get_data_status has "water"
+PASS get_data_status has "water_provider"
+PASS get_data_status has "water_profile"
+PASS get_data_status has "in_water"
+PASS get_data_status has "water_source"
+PASS get_data_status has "provider"
+PASS status "in_water" is not derived from provider presence
+PASS legacy status key "water" still = _sample.has_water
+PASS status view keys it iterates still exist
+PASS time_advanced used only by world_time (emit) and player_survival (single connect)  [['scripts/systems/player_survival.gd', 'scripts/systems/world_time.gd']]
+PASS BodyTemperature has no time listener / _process / _physics_process
+PASS body.advance() is called only from player_survival (once per chunk)
+PASS water provider / data have no signal connections or _process
+PASS tab indentation only
+PASS declared helpers exist: _water_environment_temperature, _water_source, _has_water_profile_provider
+PASS every call of those helpers matches a declaration
+PASS static helpers do not touch instance state (no self fields)
+PASS WaterTemperatureProvider / EnvironmentSample class names exist
+PASS no 4.4+ syntax
+PASS EnvironmentSample water_profile fields used by BodyTemperature all exist
+PASS res:// references all exist  [[]]
+
+RESULT: ALL PASS

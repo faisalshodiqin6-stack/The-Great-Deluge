@@ -1,0 +1,52 @@
+PASS 1 surface=26.0 -> depth 0 equals it  [26.0]
+PASS 1 surface=18.5 -> depth 0 equals it  [18.5]
+PASS 1 surface=-1.0 -> depth 0 equals it  [-1.0]
+PASS 1 surface=35.0 -> depth 0 equals it  [35.0]
+PASS 2 monotone toward deep (26.0->14.0)  [26.00 25.95 25.76 25.53 25.08 23.82 22.04 18.41 15.62 14.22 14.00 14.00]
+PASS 2 monotone toward deep (10.0->14.0)  [10.00 10.02 10.08 10.16 10.31 10.73 11.32 12.53 13.46 13.93 14.00 14.00]
+PASS 2 e-folding: depth=scale gives 63.2% of change  [18.415]
+PASS 3 sample at surface -> depth 0, temp = surface  [{'depth': 0.0, 'temp': 26.0}]
+PASS 4 unavailable: standing on island (y=ground)
+PASS 4 unavailable: on the beach above surface
+PASS 4 unavailable: in the air above ocean
+PASS 4 unavailable: feet on ocean surface (sample 0.9 above)
+PASS 4 unavailable: underground below island
+PASS 4 unavailable: beyond ocean extent
+PASS 4 unavailable: NaN position
+PASS 4 unavailable: inf position
+PASS 4 unavailable: ground unknown (require_ground)
+PASS 4 available: swimming in open sea outside the island grid (feet -3)
+PASS 4 available: standing on the seabed inside the grid (x=85,z=60, feet -1.0 -> sample -0.1)
+PASS 4 unavailable: below the seabed collider inside the grid (x=85,z=60, feet -3)
+PASS 5 fuzz: every available reading finite, depth>=0, in limits  [30232 available of 200000, bad=0]
+PASS 5 invalid -> unavailable: depth_scale 0  [depth_scale]
+PASS 5 invalid -> unavailable: depth_scale negative  [depth_scale]
+PASS 5 invalid -> unavailable: depth_scale NaN  [depth_scale]
+PASS 5 invalid -> unavailable: depth_scale inf  [depth_scale]
+PASS 5 invalid -> unavailable: max_depth negative  [max_depth]
+PASS 5 invalid -> unavailable: max_depth NaN  [max_depth]
+PASS 5 invalid -> unavailable: max_depth inf  [max_depth]
+PASS 5 invalid -> unavailable: surface NaN  [surface_temperature]
+PASS 5 invalid -> unavailable: surface inf  [surface_temperature]
+PASS 5 invalid -> unavailable: deep NaN  [deep_temperature]
+PASS 5 invalid -> unavailable: deep -inf  [deep_temperature]
+PASS 5 invalid -> unavailable: min NaN  [min/max_nan]
+PASS 5 invalid -> unavailable: max inf  [min/max_nan]
+PASS 5 invalid -> unavailable: limits reversed (min 40, max -2)  [min>max]
+PASS 5 tmin == tmax is valid and pins the value
+PASS 5 max_depth 0 is valid: every depth gives the surface value
+PASS 5 tiny positive depth_scale stays finite and monotone
+PASS 5 huge valid values: overflow -> unavailable, never inf
+PASS 5 valid but extreme surface is clamped into limits
+PASS 5 depth 0 = surface; depth=max_depth equals depth beyond it (clamp)
+PASS 7 random valid settings: result finite and within [min, max]
+PASS 6 random valid settings: monotone toward deep_temperature
+PASS regions: offset +3 raises surface by exactly 3
+PASS regions: invalid water_temperature_offset (NaN) -> unavailable
+PASS regions: invalid water_temperature_offset (inf) -> unavailable
+PASS regions: invalid water_temperature_offset (-inf) -> unavailable
+PASS regions: finite offset that overflows the sum -> unavailable
+PASS temporal hook: NaN offset -> unavailable
+6 provider independence is checked statically (tools/static_check_water.py)
+
+RESULT: ALL PASS
